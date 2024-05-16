@@ -1,0 +1,81 @@
+import random
+
+class Kettle:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.water_level = 0
+        self.temperature = self.random_initial_state()
+
+    def random_initial_state(self):
+        initial_state = random.choice(["empty_cold", "full_cold", "full_hot"])
+        if initial_state == "empty_cold":
+            self.water_level = 0
+            return "cold"
+        elif initial_state == "full_cold":
+            self.water_level = self.capacity
+            return "cold"
+        elif initial_state == "full_hot":
+            self.water_level = self.capacity
+            return "hot"
+
+    def fill_water(self, amount):
+        if self.water_level + amount <= self.capacity:
+            self.water_level += amount
+            if self.water_level > self.capacity / 2:
+                self.temperature = "cold"
+            print(f"Добавлена вода: {amount} мл")
+        else:
+            print("Чайник переполнен")
+
+    def heat_up(self):
+        if self.water_level > 0:
+            self.temperature = "hot"
+            print("Чайник нагрет до кипения!")
+        else:
+            print("Нет воды для кипячения")
+
+    def cool_down(self):
+        self.temperature = "cold"
+        print("Чайник остыл")
+
+    def pour_out_half(self):
+        if self.water_level > 0:
+            self.water_level /= 2
+            print("Вылито половина воды")
+            if self.temperature == "hot":
+                self.cool_down()
+        else:
+            print("Чайник пуст")
+
+class Stove:
+    def __init__(self):
+        self.power_on = False
+
+    def turn_on(self):
+        self.power_on = True
+        print("Плита включена")
+
+    def turn_off(self):
+        self.power_on = False
+        print("Плита выключена")
+
+# Создание объектов
+kettle = Kettle(capacity=1000)
+stove = Stove()
+
+# Проверяем состояние чайника
+if kettle.temperature == "cold":
+    # Выливаем половину воды и вскипячиваем
+    kettle.pour_out_half()
+    kettle.fill_water(500)
+elif kettle.temperature == "hot":
+    # Выливаем половину воды
+    kettle.pour_out_half()
+
+# Включаем плиту только если чайник не был горячим и полным
+if kettle.temperature != "hot":
+    stove.turn_on()
+
+# Проверяем наличие воды и начинаем кипячение только если чайник холодный
+if kettle.temperature == "cold":
+    kettle.heat_up()

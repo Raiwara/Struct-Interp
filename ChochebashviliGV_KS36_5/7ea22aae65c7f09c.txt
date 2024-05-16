@@ -1,0 +1,51 @@
+class Car:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.__mileage = 0  # Приватное свойство
+
+    def __str__(self):
+        return f"{self.year} {self.make} {self.model}"
+
+    def get_mileage(self):
+        return self.__mileage
+
+    def set_mileage(self, mileage):
+        if mileage >= 0:
+            self.__mileage = mileage
+        else:
+            print("Пробег не может быть отрицательным.")
+
+    # Перегрузка конструктора
+    @classmethod
+    def from_dict(cls, car_dict):
+        make = car_dict.get('make', 'Unknown')
+        model = car_dict.get('model', 'Unknown')
+        year = car_dict.get('year', 'Unknown')
+        mileage = car_dict.get('mileage', 0)
+        instance = cls(make, model, year)
+        instance.set_mileage(mileage)
+        return instance
+
+class ElectricCar(Car):
+    def __init__(self, make, model, year, battery_capacity):
+        super().__init__(make, model, year)  # Вызов конструктора базового класса
+        self.battery_capacity = battery_capacity
+
+    def __str__(self):
+        return f"{super().__str__()} с ёмкостью аккумулятора {self.battery_capacity} кВтч"
+
+# Создание объекта через обычный конструктор
+my_car = Car("Toyota", "Camry", 2020)
+print(my_car)  # Вывод: 2020 Toyota Camry
+
+# Создание объекта через перегруженный конструктор
+car_data = {'make': 'Honda', 'model': 'Accord', 'year': 2018, 'mileage': 50000}
+my_other_car = Car.from_dict(car_data)
+print(my_other_car)  # Вывод: 2018 Honda Accord
+print("Пробег:", my_other_car.get_mileage())  # Вывод: Пробег: 50000
+
+# Создание объекта с использованием перегруженного конструктора
+my_electric_car = ElectricCar("Tesla", "Model S", 2022, 100)
+print(my_electric_car)  # Вывод: 2022 Tesla Model S с ёмкостью аккумулятора 100 кВтч

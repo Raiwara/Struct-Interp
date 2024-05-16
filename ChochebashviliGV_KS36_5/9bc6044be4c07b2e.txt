@@ -1,0 +1,34 @@
+from abc import ABC, abstractmethod
+
+class FootballTeam(ABC):
+    def __init__(self, name, city):
+        self.name = name
+        self.city = city
+
+    @abstractmethod
+    def get_info(self):
+        pass
+
+class Club(FootballTeam):
+    def __init__(self, name, city, stadium):
+        super().__init__(name, city)
+        self.stadium = stadium
+
+    def get_info(self):
+        return f"{self.name} из {self.city} играет на {self.stadium}"
+
+class NationalTeam(FootballTeam):
+    def __init__(self, name, city, country):
+        super().__init__(name, city)
+        self.country = country
+
+    def get_info(self):
+        return f"{self.name} представляет {self.country}"
+
+# Создание экземпляров классов
+barcelona = Club("FC Chelsea", "London", "Stamford Bridge")
+spain = NationalTeam("England National Team", "London", "England")
+
+# Использование методов
+print(barcelona.get_info())
+print(spain.get_info())
