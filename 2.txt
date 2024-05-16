@@ -1,0 +1,19 @@
+def make_rat(n, d):
+    def rational(operation):
+        def apply_operation(x, y):
+            g = gcd(x, y)
+            return operation(x // g, y // g)
+        return apply_operation
+    
+    def gcd(a, b):
+        while b:
+            a, b = b, a % b
+        return a
+    
+    def numer(x, y):
+        return x
+    
+    def denom(x, y):
+        return y
+    
+    return rational
