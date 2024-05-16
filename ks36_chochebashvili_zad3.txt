@@ -1,0 +1,29 @@
+def calculate_area(r):
+    return f"Вычисленная площадь круга: {3.14 * r ** 2} кв. ед."
+
+def calculate_radius(a):
+    return f"Вычисленный радиус круга: {((a / 3.14) ** 0.5):.2f} ед."
+
+def calculate_volume(l):
+    return f"Вычисленный объем куба: {l ** 3} куб. ед."
+
+def calculate_length(v):
+    return f"Вычисленная длина ребра куба: {v ** (1 / 3):.2f} ед."
+
+def pump(*funcs):
+    def wrapper(*args):
+        for func in funcs:
+            if "area" in func.__name__:
+                print("Текущая фигура: Круг")
+                print(func(*args))
+            else:
+                print("Текущая фигура: Куб")
+                print(func(*args))
+            print()
+    return wrapper
+
+pumped_circle = pump(calculate_area, calculate_radius)
+pumped_circle(5)
+
+pumped_cube = pump(calculate_volume, calculate_length)
+pumped_cube(125)
