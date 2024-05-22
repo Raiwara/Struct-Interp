@@ -1,3 +1,5 @@
+#Функции высших порядков
+
 def make_rat(n, d):
     def rational(operation):
         def apply_operation(x, y):
