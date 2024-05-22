@@ -1,3 +1,5 @@
+# Чайник
+
 import random
 
 class Kettle:
